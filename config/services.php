@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'github' => [
+        'client_id' => 'eaa7aa528478de54830d',
+        'client_secret' => 'b6fc01f89233c875f41053ed55cf6f2032751e74',
+        'redirect' => 'http://mynote.h.istiny.cc:8087/socialite/callback/github',
+    ],
+
 ];

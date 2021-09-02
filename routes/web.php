@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::any("/socialite/go-auth/{type}", [SocialiteController::class, "goAuth"]);
+Route::any("/socialite/callback/{type}", [SocialiteController::class, "callback"]);
