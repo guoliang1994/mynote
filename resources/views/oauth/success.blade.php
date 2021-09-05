@@ -9,10 +9,9 @@
 </head>
 <body>
 oauth认证成功
-{{$userInfo}}
 <script>
     window.onload = function () {
-        window.opener.postMessage("{{ $userInfo }}", "{{ $userInfo }}");
+        window.opener.postMessage("message", "http://{{$frontUrl}}");
         window.close();
     }
 </script>

@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
+    use HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -55,18 +57,18 @@ class User extends Authenticatable
      */
     public function loginByCredentials(array $credentials): JsonResponse
     {
-        $ok = auth()->attempt($credentials);
+        $ok = auth()->attempt($credentials, true);
         if (!$ok ) {
             return response()->json(['error' => 'login by credentials error'], 401);
         }
-        return $this->respondWithToken(auth()->user()->createToken('vue_admin')->plainTextToken);
+        return $this->respondWithToken('');
     }
 
     /**
      * 查询出用户快速登录
      */
     public function login() {
-       auth()->login($this, true);
+        auth()->login($this, true);
     }
     /**
      * Get the authenticated User.
@@ -75,7 +77,8 @@ class User extends Authenticatable
      */
     public function me(): JsonResponse
     {
-        return response()->json(['code' => 20000, 'data' => [auth()->user()]]);
+        $user = auth()->user();
+        return response()->json(['code' => 20000, 'data' => $user]);
     }
 
     /**
@@ -85,9 +88,8 @@ class User extends Authenticatable
      */
     public function logout(): JsonResponse
     {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        auth()->guard("web")->logout();
+        return response()->json(['code'=> 20000, 'message' => 'Successfully logged out']);
     }
 
     /**
@@ -109,7 +111,6 @@ class User extends Authenticatable
      */
     protected function respondWithToken(string $token): JsonResponse
     {
-        $user = auth();
         $expire = 7200;
         return response()->json(['code' => 20000, 'message'=> '登录成功', 'data' =>[
             'access_token' => $token,

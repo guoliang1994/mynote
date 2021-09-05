@@ -8,14 +8,12 @@
     <title>oauth github</title>
 </head>
 <body>
-Oauth 认证失败，请重试。
-5秒后自动关闭
-{{$token}}{{$exception}}
+Oauth 认证失败，请重试.
 <script>
-    {{--window.onload = function () {--}}
-    {{--    window.opener.postMessage("{{ $token }}", "{{ $domain }}");--}}
-    {{--    // window.close();--}}
-    {{--}--}}
+    window.onload = function () {
+        window.opener.postMessage("message", "http://{{$frontUrl}}");
+        window.close();
+    }
 </script>
 </body>
 </html>

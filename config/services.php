@@ -33,7 +33,13 @@ return [
     'github' => [
         'client_id' => 'eaa7aa528478de54830d',
         'client_secret' => 'b6fc01f89233c875f41053ed55cf6f2032751e74',
-        'redirect' => 'http://mynote.h.istiny.cc:8087/socialite/callback/github',
+        'redirect' => 'http://mynote.com/socialite/callback/github',
+    ],
+
+    'gitee' => [
+        'client_id' => '037710c5b3821079012b7b52cdc9a03172c8d5e5d99b68f0b07d7814e5e3ef2e',
+        'client_secret' => '3e4359eccc41248cac42396dc95fb0deb6ed76d25813b5d839c9eecf0d4b375b',
+        'redirect' => 'http://mynote.com/socialite/callback/gitee',
     ],
 
 ];

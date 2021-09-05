@@ -42,7 +42,8 @@
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
+      <button @click="oauth('github')">github登录</button>
+      <button @click="oauth('gitee')">gitee登录</button>
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
@@ -54,6 +55,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { getInfo } from '@/api/user'
 
 export default {
   name: 'Login',
@@ -75,7 +77,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: 'github'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -104,6 +106,16 @@ export default {
       this.$nextTick(() => {
         this.$refs.password.focus()
       })
+    },
+    oauth(type) {
+      const that = this
+      window.open('http://mynote.com/socialite/go-auth/' + type,'','left=300,top=200,width=700,height=400')
+      window.addEventListener('message', function (e) {
+        console.log(e)
+        that.$store.dispatch('user/getInfo').then(res => {
+          that.$router.push({ path: '/dashboard' })
+        })
+      }, false)
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
